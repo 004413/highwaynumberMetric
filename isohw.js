@@ -2,11 +2,19 @@ var CANVAS_HORZ_SIZE = 999;
 var CANVAS_VERT_SIZE = 999;
 var LEFT_MARGIN = 18;
 var TOP_MARGIN = 27;
+var CITY_MARGIN = 3;
 var canvas = Raphael(0,0,CANVAS_HORZ_SIZE,CANVAS_VERT_SIZE);
 
 var COLORS = ['#000000','#FF8000','#0000FF','#FF0000','#008000'];
 var X_SIZE = 6;
 var LINE_WIDTH = 2;
+
+var LIGHT_RED = '#FF8080';
+var LIGHT_GREEN = '#80FF80';
+var LIGHT_BLUE = '#8080FF';
+var LIGHT_MAGENTA = '#FF80FF';
+var LIGHT_CYAN = '#80FFFF';
+var LIGHT_YELLOW = '#FFFF80';
 
 function oddConvert(hwNumber){
   return 9*hwNumber + LEFT_MARGIN;
@@ -85,10 +93,26 @@ function makeNumLabel(highwayNumber){
   }
 }
 
-highways = [2,4,5,8,10,12,15,16,17,19,20,22,24,25,26,27,29,30,35,37,39,40,43,44,45,49,55,57,59,64,65,66,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,93,94,95,96,97,99];
+/* name: name of city
+ * left: interstate number on left side
+ * right: interstate number on right side
+ * up: interstate number on top side
+ * down: interstate number on bottom side
+ * color: color for the city */
+function makeCity(name,left,right,up,down,color){
+  var leftCoord = oddConvert(left);
+  var rightCoord = oddConvert(right);
+  var topCoord = evenConvert(up);
+  var bottomCoord = evenConvert(down);
+  var cityRect = canvas.rect(leftCoord-CITY_MARGIN,topCoord-CITY_MARGIN,rightCoord-leftCoord+2*CITY_MARGIN,bottomCoord-topCoord+2*CITY_MARGIN,CITY_MARGIN).attr({'fill':color});
+}
+
+var highways = [2,4,5,8,10,12,15,16,17,19,20,22,24,25,26,27,29,30,35,37,39,40,43,44,45,49,55,57,59,64,65,66,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,93,94,95,96,97,99];
 for(var num=0;num<highways.length;num++){
   makeNumLabel(highways[num]);
 }
+
+var Dallas = makeCity("Dallas",35,45,30,20,LIGHT_RED);
 
 var highway5 = drawInterstate(5,0,100,[],[]);
 var highway15 = drawInterstate(15,8,100,[],[]);
